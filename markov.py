@@ -10,9 +10,10 @@ def open_and_read_file(file_path):
     the file's contents as one string of text.
     """
 
-    # your code goes here
+    file = open(file_path)
+    script = file.read()
 
-    return "Contents of your file as one long string"
+    return script
 
 
 def make_chains(text_string):
@@ -39,10 +40,17 @@ def make_chains(text_string):
         >>> chains[('there','juanita')]
         [None]
     """
-
+    words = text_string.split()
+    words.append(None)
     chains = {}
 
-    # your code goes here
+    for i in range(len(words)-2):
+        key = (words[i], words[i+1])
+        value = words[i+2]
+        if key not in chains:
+            chains[key] = []
+
+        chains[key].append(value)
 
     return chains
 
@@ -52,7 +60,20 @@ def make_text(chains):
 
     words = []
 
-    # your code goes here
+    # choose random key from dictionary
+    current_key = choice(list(chains.keys()))
+    words = [current_key[0], current_key[1]]
+    current_word = choice(chains[current_key])
+    
+    while current_word is not None:
+        current_key = (current_key[1], current_word)
+        words.append(current_word)
+        current_word = choice(chains[current_key])
+
+
+
+    
+
 
     return " ".join(words)
 
